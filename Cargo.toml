@@ -1,0 +1,16 @@
+[package]
+name = "shrs_pride"
+version = "0.0.1"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+authors = ["nithinmuthukumar"]
+description = "Plugin in celebration of pride month"
+repository = "https://github.com/nithinmuthukumar/shrs_pride"
+
+[dependencies]
+shrs = { git = "https://github.com/MrPicklePinosaur/shrs"}
+crossterm = {version = "0.26"}
+lazy_static = "1.4.0"
+
+
+
