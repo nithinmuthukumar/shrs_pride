@@ -3,7 +3,7 @@ use shrs::{
     prelude::{LineBuilder, SyntaxHighlighter, SyntaxTheme},
     ShellBuilder,
 };
-use shrs_pride::pride_rule;
+use shrs_pride::{pride_rule, PridePrompt};
 
 fn main() {
     let syntax_theme = SyntaxTheme::new(
@@ -13,8 +13,10 @@ fn main() {
         },
         vec![pride_rule],
     );
+    let prompt = PridePrompt;
 
     let readline = LineBuilder::default()
+        .with_prompt(prompt)
         .with_highlighter(SyntaxHighlighter::new(syntax_theme))
         .build()
         .expect("Could not construct readline");

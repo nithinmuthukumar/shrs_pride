@@ -2,7 +2,11 @@ use std::collections::HashMap;
 
 use lazy_static::lazy_static;
 
-use crossterm::style::{Color, ContentStyle};
+use crossterm::style::{Color, ContentStyle, Stylize};
+use shrs::{
+    prelude::{styled, LineCtx, LineMode, Prompt, StyledBuf},
+    prompt::{top_pwd, username},
+};
 lazy_static! {
     static ref COLORS: Vec<Color> = vec![
         //red
@@ -26,16 +30,16 @@ lazy_static! {
         //green
         Color::Rgb {
             r: 0,
-            g: 128,
+            g: 180,
             b: 24
         },
         //blue
-        Color::Rgb { r: 0, g: 0, b: 249 },
+        Color::Rgb { r: 42, g: 125, b: 255 },
         //violet
         Color::Rgb {
             r: 134,
-            g: 0,
-            b: 125
+            g: 49,
+            b: 247
         }
     ];
 }
@@ -56,4 +60,22 @@ pub fn pride_rule(buf: &str) -> HashMap<usize, ContentStyle> {
         }
     }
     c_style
+}
+pub struct PridePrompt;
+
+impl Prompt for PridePrompt {
+    fn prompt_left(&self, line_ctx: &mut LineCtx) -> StyledBuf {
+        let indicator = match line_ctx.mode() {
+            LineMode::Insert => String::from(">").cyan(),
+            LineMode::Normal => String::from(":").yellow(),
+        };
+        if !line_ctx.lines.is_empty() {
+            return styled! {" ", indicator, " "};
+        }
+
+        styled! {"(He/Him)", @(blue)username(), " ", @(white,bold)top_pwd(), " ", indicator, " "}
+    }
+    fn prompt_right(&self, line_ctx: &mut LineCtx) -> StyledBuf {
+        styled! {"🏳️‍🌈 ".repeat(3)}
+    }
 }
